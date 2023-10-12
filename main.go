@@ -46,12 +46,11 @@ func main() {
 
 	file, err := os.Create("pokemon_list.csv")
 	if err != nil {
-		log.Fatal(`Failed to create "pokemon.csv".`)
+		log.Fatal(`Failed to create "pokemon_list.csv".`)
 	}
 	defer file.Close()
 
 	writer := csv.NewWriter(file)
-
 	headers := []string{
 		"url", "image", "name", "price",
 	}
