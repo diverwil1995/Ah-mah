@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gocolly/colly"
 )
@@ -23,11 +22,6 @@ func main() {
 
 	c := colly.NewCollector()
 
-	c.OnRequest(func(r *colly.Request) {
-		log.Println("Visiting", r.URL)
-		time.Sleep(2 * time.Second)
-	})
-
 	c.OnHTML("li.product", func(e *colly.HTMLElement) {
 		pokemonProduct := PokemonProduct{}
 
@@ -39,11 +33,13 @@ func main() {
 		pokemonProducts = append(pokemonProducts, pokemonProduct)
 	})
 
-	err := c.Visit(url)
-	if err != nil {
-		log.Fatalf("Failed to visit URL: %v", err)
-	}
+	c.OnRequest(func(r *colly.Request) {
+		log.Println("Visiting", r.URL)
+	})
 
+	c.Visit(url)
+
+	// Create csv file.
 	file, err := os.Create("pokemon_list.csv")
 	if err != nil {
 		log.Fatal(`Failed to create "pokemon_list.csv".`)
