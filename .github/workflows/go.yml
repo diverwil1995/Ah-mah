@@ -1,28 +1,28 @@
-name: Go
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # Triggered when code is pushed to the main branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ] # Triggered when a pull request is created to the main branch
 
 jobs:
 
   build:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.os}} # Set operating system with parameter
     strategy:
         matrix:
-            os: [ubuntu-latest, windows-latest, macOS-latest]
+            os: [ubuntu-latest, windows-latest, macOS-latest] # Descript matrix.os content
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 # Clone the code
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v4 # Set up Go enviroment
       with:
-        go-version: '1.20'
+        go-version: '1.20' # Specify version
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v ./... 
 
     - name: Test
       run: go test -v ./...
