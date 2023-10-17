@@ -7,9 +7,9 @@
 ```json
 {
     "url",    //網站連結
-    "image",  //圖片  
+    "image",  //圖片
     "name",   //名稱
-    "store",  //店面  
+    "store",  //店面
     "price",  //價錢
     "left"    //庫存
 }
@@ -26,8 +26,8 @@ curl -o output.html -L -c cookies.txt -b cookies.txt -A "User-Agent-String" "htt
 ![image](./img/css_selector.png)
 
 ### 使用工具
-Go爬蟲套件 [Colly](https://github.com/gocolly/colly)
-Go標準庫 "encoding/csv", "os"
+* Go爬蟲套件 [Colly](https://github.com/gocolly/colly)
+* Go標準庫 "encoding/csv", "os"
 
 ### 寫入.csv檔案並匯出至當前目錄
 ![image](./img/csv.png)
