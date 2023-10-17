@@ -39,7 +39,7 @@ func main() {
 	})
 	c.Visit(url)
 
-	file, err := os.Create("TenGoods_NewItems.csv")
+	file, err := os.Create("TenGoods_HomePageItems.csv")
 	if err != nil {
 		log.Fatal(`Create csv file failed.`)
 	}
