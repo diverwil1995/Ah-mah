@@ -13,7 +13,7 @@ import (
 
 type Good struct {
 	Url   string
-	Image string //TODO: Download image.
+	Image string
 	Name  string
 	Price string
 	Store string
@@ -42,6 +42,12 @@ func downloadImage(url, imgPath string) error {
 		return err
 	}
 	return nil
+}
+
+func init() {
+	if err := os.MkdirAll(imgDirectory, os.ModePerm); err != nil {
+		log.Fatalf("創建圖片目錄失敗：%v", err)
+	}
 }
 
 func main() {
