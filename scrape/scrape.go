@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -22,6 +23,7 @@ type Good struct {
 
 var (
 	url          string = "https://www.tengoods.com.tw"
+	page         string = "https://www.tengoods.com.tw/Home/Product"
 	goods        []Good
 	imgDirectory = "./output/img"
 )
@@ -29,16 +31,19 @@ var (
 func downloadImage(url, imgPath string) error {
 	response, err := http.Get(url)
 	if err != nil {
+		fmt.Printf("http.Get()錯誤：")
 		return err
 	}
 	defer response.Body.Close()
 	file, err := os.Create(imgPath)
 	if err != nil {
+		fmt.Printf("os.Create()錯誤：")
 		return err
 	}
 	defer file.Close()
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
+		fmt.Printf("io.Copy()錯誤：")
 		return err
 	}
 	return nil
@@ -60,18 +65,28 @@ func main() {
 		good.Store = e.ChildText(".home-proitem-item.home-proitem-shop")
 		good.Price = e.ChildText(".home-proitem-item.home-proitem-price")
 		good.Left = e.ChildText(".home-proitem-item.home-proitem-qty")
+
+		// lock := sync.Mutex{}
+		// lock.Lock()
 		goods = append(goods, good)
+		// lock.Unlock()
 
 		imgPath := filepath.Join(imgDirectory, good.Name+".jpg")
 		err := downloadImage(good.Image, imgPath)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("%v \n", err)
 		}
 	})
 	c.OnRequest(func(r *colly.Request) {
 		log.Println("Visiting", r.URL)
 	})
-	c.Visit(url)
+
+	//TODO: use gorutine, channel to fix it.
+	c.Visit(page)
+	c.Visit(page + "/2")
+	c.Visit(page + "/3")
+	c.Visit(page + "/4")
+	c.Visit(page + "/5")
 
 	file, err := os.Create("./output/TenGoods_HomePageItems.csv")
 	if err != nil {
