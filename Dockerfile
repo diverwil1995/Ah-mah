@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.19
 
-WORKDIR /app
+WORKDIR /scrape
 
 COPY go .mod go.sum ./
 
@@ -13,4 +13,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 
 EXPOSE 8080
 
-CMD [ "./scrape/scrape" ]
+CMD [ "/scrape" ]
