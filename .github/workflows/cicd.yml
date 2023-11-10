@@ -1,4 +1,4 @@
-name: CI
+name: CICD
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
     - name: Test 
       run: go test -v ./...
 
-  docker:
+  image:
     runs-on: ubuntu-latest
     steps:
       -
